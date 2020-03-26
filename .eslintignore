@@ -53,3 +53,13 @@ package.json
 *.css.d.ts
 *.sass.d.ts
 *.scss.d.ts
+
+.github
+.vscode
+configs
+internals
+test
+
+azure-pipelines.yml
+report.*.html
+stats.*.json

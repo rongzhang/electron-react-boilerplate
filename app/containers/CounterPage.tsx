@@ -5,13 +5,13 @@ import {
   increment,
   decrement,
   incrementIfOdd,
-  incrementAsync
+  incrementAsync,
 } from '../actions/counter';
 import { counterStateType } from '../reducers/types';
 
 function mapStateToProps(state: counterStateType) {
   return {
-    counter: state.counter
+    counter: state.counter,
   };
 }
 
@@ -21,7 +21,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
       increment,
       decrement,
       incrementIfOdd,
-      incrementAsync
+      incrementAsync,
     },
     dispatch
   );
