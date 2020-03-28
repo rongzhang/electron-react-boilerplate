@@ -21,7 +21,7 @@ function showWindow(): void {
   browserWindow?.focus();
 }
 
-export default function createMenuBar(trayBounds?: Rectangle): BrowserWindow {
+export function createMenuBar(trayBounds?: Rectangle): BrowserWindow {
   if (trayBounds) cachedTrayBounds = trayBounds;
 
   if (browserWindow) {
@@ -56,4 +56,9 @@ export default function createMenuBar(trayBounds?: Rectangle): BrowserWindow {
   });
 
   return browserWindow;
+}
+
+export function destroyMenuBar() {
+  browserWindow && browserWindow.close();
+  cachedTrayBounds = undefined;
 }

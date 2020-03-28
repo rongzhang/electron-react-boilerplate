@@ -3,7 +3,7 @@ import { BrowserWindow, Tray, KeyboardEvent, Rectangle } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import trayCreate from './tray';
-import createMenuBarWindow from './createMenuBarWindow';
+import { createMenuBar as createMenuBarWindow, destroyMenuBar } from './createMenuBarWindow';
 import MenuBuilder from './menu';
 
 let mainWindow: BrowserWindow | null = null;
@@ -49,12 +49,16 @@ export const createWindow = (): BrowserWindow => {
   wnd.on('closed', () => {
     if (mainWindow === wnd) {
       mainWindow = null;
-      destroyTray();
-    }
 
-    const index = otherWindows.findIndex(w => w === wnd);
-    if (index !== -1) {
-      otherWindows.splice(index, 1);
+      destroyMenuBar();
+      destroyTray();
+
+      [...otherWindows].forEach(w => { w && w.close(); });
+    } else {
+      const index = otherWindows.findIndex(w => w === wnd);
+      if (index !== -1) {
+        otherWindows.splice(index, 1);
+      }
     }
   });
 
@@ -97,7 +101,7 @@ export const createMainWindow = async () => {
     createTray();
 
     mainWindow = createWindow();
-    mainWindow.webContents.openDevTools({ mode: 'detach' });
+    //mainWindow.webContents.openDevTools({ mode: 'detach' });
 
     const menuBuilder = new MenuBuilder(mainWindow);
     menuBuilder.buildMenu();
